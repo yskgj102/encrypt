@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <meta charset="utf-8" />
+ <title>sample</title>
+ <script src="cryptico.min.js">
+ </script>
+ <link rel="stylesheet" href="./css/stylesheet.css">
+ <script language="javascript" type="text/javascript">
+   function onButtonClick() {
+     var target = document.getElementById("output");
+     var target2 = document.getElementById("output2");
+     var target3 = document.getElementById("output3");
+     var target4 = document.getElementById("output4");
+     // RSA鍵の作り方
+     var PassPhrase = document.forms.form1.pass.value;
+     // console.log("PassPhrase:", PassPhrase);
+     // document.write("PassPhrase:"+PassPhrase);
+     // document.write("<br>");
+     var Bits = 1024;
+     var MattsRSAkey = cryptico.generateRSAKey(PassPhrase, Bits);
+     // console.log("MattsRSAkey:", MattsRSAkey);
+     // document.write("MattsRSAkey:"+ MattsRSAkey);
+     // document.write("<br>");
+     // 公開鍵の作り方
+     var MattsPublicKeyString = cryptico.publicKeyString(MattsRSAkey);
+     // console.log("MattsPublicKeyString:", MattsPublicKeyString);
+     // document.write("MattsPublicKeyString:"+ MattsPublicKeyString);
+     // document.write("<br>");
+     target.innerText = MattsPublicKeyString;
+     // 暗号化
+     var PlainText = document.forms.form1.plaintext.value;
+     // console.log("PlainText:", PlainText);
+     // document.write("PlainText:"+ PlainText);
+     // document.write("<br>");
+     target2.innerText = PlainText;
+     var EncryptionResult = cryptico.encrypt(PlainText, MattsPublicKeyString);
+     console.log("EncryptionResult:", EncryptionResult.cipher);
+     // document.write("EncryptionResult:"+ EncryptionResult.cipher);
+     // document.write("<br>");
+     target3.innerText = EncryptionResult.cipher;
+     // 復号化
+     var DecryptionResult = cryptico.decrypt(EncryptionResult.cipher, MattsRSAkey);
+     console.log("DecryptionResult:", DecryptionResult);
+     // document.write("DecryptionResult:"+ DecryptionResult);
+     // document.write("<br>");
+     target4.innerText = DecryptionResult.plaintext;
+   }
+   function onButtonClick2() {
+     var target5 = document.getElementById("output5");
+     // RSA鍵の作り方
+     var PassPhrase = document.forms.form2.pass.value;
+     // console.log("PassPhrase:", PassPhrase);
+     // document.write("PassPhrase:"+PassPhrase);
+     // document.write("<br>");
+     var Bits = 1024;
+     var MattsRSAkey = cryptico.generateRSAKey(PassPhrase, Bits);
+     // console.log("MattsRSAkey:", MattsRSAkey);
+     // document.write("MattsRSAkey:"+ MattsRSAkey);
+     // document.write("<br>");
+     // 復号化
+     var DecryptionResult = cryptico.decrypt(document.forms.form2.encryption.value, MattsRSAkey);
+     console.log("DecryptionResult:", DecryptionResult);
+     // document.write("DecryptionResult:"+ DecryptionResult);
+     // document.write("<br>");
+     target5.innerText = DecryptionResult.plaintext;
+   }
+   function copyToClipboard() {
+     // コピー対象をJavaScript上で変数として定義する
+     var copyTarget = document.getElementById("output3");
+     // コピー対象のテキストを選択する
+     copyTarget.select();
+     // 選択しているテキストをクリップボードにコピーする
+     document.execCommand("Copy");
+     // コピーをお知らせする
+   }
+ </script>
+</head>
+<header class="header">
+ adsf
+</header>
+<body>
+ <h1>Encryption</h1>
+ <form name="form1" class="encryptform" action="index.html" method="post">
+   <textarea type="text" class="box" name="plaintext" cols="30" rows="10" placeholder="PlainText"></textarea><br/>
+   <textarea placeholder="PassPhrase"type="text" name="pass" cols="10" rows="1"></textarea>
+   <input class="button"type="button" name="" value="Encript" onclick="onButtonClick();" />
+ </form>
+ <hr />
+  <textarea placeholder="RSAKey"type="text" id="output"></textarea><br/>
+  <textarea placeholder="Plaintext"type="text"id="output2"></textarea><br/>
+
+<textarea lass="button"placeholder="Encryption" type="text"id="output3"></textarea>
+ <button class="button"onclick="copyToClipboard()">Copy text</button><br/>
+  <textarea placeholder="DecryptionResult"type="text"type="text"id="output4"></textarea><br/>
+</br></br></br>
+<div class="spliter">
+ a
+</div>
+ <h1>Decryption</h1>
+ <form name="form2" class="" action="index.html" method="post">
+   <textarea class="button"placeholder="Encryption"type="text" name="encryption" cols="20" rows="5"></textarea><br/>
+   <textarea class="button"placeholder="PassPhrase"type="text" name="pass" cols="10" rows="1"></textarea>
+   <input class="button"type="button" name="" value="Decrypt" onclick="onButtonClick2();" />
+ </form>
+ <hr />
+   <textarea class="button"type="text"id="output5"cols="30" rows="10"placeholder="DecryptionResult"></textarea>
+   <br/>
+</body>
+<footer class="footer">
+</footer>
+</html>
