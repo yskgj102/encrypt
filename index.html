@@ -66,9 +66,19 @@
      // document.write("<br>");
      target5.innerText = DecryptionResult.plaintext;
    }
-   function copyToClipboard() {
+   function copyEncryptionToClipboard() {
      // コピー対象をJavaScript上で変数として定義する
      var copyTarget = document.getElementById("output3");
+     // コピー対象のテキストを選択する
+     copyTarget.select();
+     // 選択しているテキストをクリップボードにコピーする
+     document.execCommand("Copy");
+     // コピーをお知らせする
+   }
+
+   function copyDecryptionResultToClipboard() {
+     // コピー対象をJavaScript上で変数として定義する
+     var copyTarget = document.getElementById("output5");
      // コピー対象のテキストを選択する
      copyTarget.select();
      // 選択しているテキストをクリップボードにコピーする
@@ -92,7 +102,7 @@
   <textarea placeholder="Plaintext"type="text"id="output2"></textarea><br/>
 
 <textarea lass="button"placeholder="Encryption" type="text"id="output3"></textarea>
- <button class="button"onclick="copyToClipboard()">Copy text</button><br/>
+ <button class="button"onclick="copyEncryptionToClipboard()">Copy text</button><br/>
   <textarea placeholder="DecryptionResult"type="text"type="text"id="output4"></textarea><br/>
 </br></br></br>
 <div class="spliter">
@@ -106,7 +116,7 @@
  </form>
  <hr />
    <textarea class="button"type="text"id="output5"cols="30" rows="10"placeholder="DecryptionResult"></textarea>
-   <button class="button"onclick="copyToClipboard()">Copy text</button><br/>
+   <button class="button"onclick="copyDecryptionResultToClipboard()">Copy text</button><br/>
 </body>
 <footer class="footer">
 </footer>
